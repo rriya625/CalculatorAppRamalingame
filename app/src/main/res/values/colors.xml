@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="DarkSlateGrey">#255957</color>
+    <color name="DarkCyan">#5B918E</color>
+    <color name="LightBlue">#B4D1CF</color>
+    <color name="TimberWolf">#CACAC3</color>
+    <color name="Isabelline">#F3FOEB</color>
 </resources>
