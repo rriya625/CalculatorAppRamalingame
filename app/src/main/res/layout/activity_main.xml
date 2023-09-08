@@ -103,18 +103,32 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:onClick="switchScreens"
         android:id="@+id/integerDivisionButton"
         android:layout_width="122dp"
         android:layout_height="60dp"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="80dp"
         android:backgroundTint="@color/DarkCyan"
+        android:onClick="switchScreens"
         android:text="@string/integer_division"
         android:textColor="@color/TimberWolf"
         app:iconTint="@color/TimberWolf"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:onClick="switchScreens"
+        android:id="@+id/normalCalcButton"
+        android:layout_width="130dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/black"
+        android:text="@string/multiple_operations"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.984" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

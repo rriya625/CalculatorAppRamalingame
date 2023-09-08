@@ -41,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, IntegerDivisionActivity.class);
             startActivity(intent);
         }
+        else if(view.getId() == R.id.goToHomeAdd){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        else if(view.getId() == R.id.normalCalcButton){
+            Intent intent = new Intent(this, CalculatorMultipleOperations.class);
+            startActivity(intent);
+        }
+
     }
 }
 

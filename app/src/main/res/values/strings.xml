@@ -8,4 +8,10 @@
     <string name="multiply">Multiply</string>
     <string name="integer_division">Integer Division</string>
     <string name="addition">Addition</string>
+    <string name="multiple_operations">Multiple Operations</string>
+    <string name="calculatorTitleId">Calculator</string>
+    <string name="plus">+</string>
+    <string name="subtractsign">-</string>
+    <string name="multiplySign">x</string>
+    <string name="dividesign">/</string>
 </resources>
