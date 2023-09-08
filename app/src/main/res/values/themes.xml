@@ -3,6 +3,13 @@
     <style name="Base.Theme.CalculatorAppRamalingame" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/DarkSlateGrey</item>
+        <item name="colorPrimaryVariant">@color/DarkCyan</item>
+        <item name="colorOnPrimary">@color/LightBlue</item>
+
+        <item name="colorSecondary">@color/TimberWolf</item>
+        <item name="colorSecondaryVariant">@color/Isabelline</item>
+
     </style>
 
     <style name="Theme.CalculatorAppRamalingame" parent="Base.Theme.CalculatorAppRamalingame" />
