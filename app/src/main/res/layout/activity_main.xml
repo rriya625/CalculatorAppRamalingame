@@ -32,103 +32,18 @@
         app:srcCompat="@drawable/img_3729" />
 
     <Button
-        android:onClick="switchScreens"
-        android:id="@+id/additionButton"
-        android:layout_width="122dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginBottom="200dp"
-        android:backgroundTint="@color/DarkCyan"
-        android:text="@string/add"
-        android:textColor="@color/TimberWolf"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:onClick="switchScreens"
-        android:id="@+id/divisionButton"
-        android:layout_width="122dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="200dp"
-        android:backgroundTint="@color/DarkCyan"
-        android:text="@string/divide"
-        android:textColor="@color/TimberWolf"
-        android:textStyle="italic"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:onClick="switchScreens"
-        android:id="@+id/subtractionButton"
-        android:layout_width="122dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginBottom="140dp"
-        android:backgroundTint="@color/DarkCyan"
-        android:text="@string/subtract"
-        android:textColor="@color/TimberWolf"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:onClick="switchScreens"
-        android:id="@+id/exponentialButton"
-        android:layout_width="122dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="140dp"
-        android:backgroundTint="@color/DarkCyan"
-        android:text="@string/exponent"
-        android:textColor="@color/TimberWolf"
-        app:iconTint="@color/TimberWolf"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:onClick="switchScreens"
-        android:id="@+id/multiplicationButton"
-        android:layout_width="122dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginBottom="80dp"
-        android:backgroundTint="@color/DarkCyan"
-        android:text="@string/multiply"
-        android:textColor="@color/TimberWolf"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/integerDivisionButton"
-        android:layout_width="122dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="80dp"
-        android:backgroundTint="@color/DarkCyan"
-        android:onClick="switchScreens"
-        android:text="@string/integer_division"
-        android:textColor="@color/TimberWolf"
-        app:iconTint="@color/TimberWolf"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:onClick="switchScreens"
         android:id="@+id/normalCalcButton"
         android:layout_width="130dp"
         android:layout_height="70dp"
         android:backgroundTint="@color/black"
+        android:onClick="switchScreens"
         android:text="@string/multiple_operations"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.984" />
+        app:layout_constraintVertical_bias="0.919" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

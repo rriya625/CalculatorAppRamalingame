@@ -16,40 +16,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchScreens(View view){
-
-        if(view.getId() == R.id.additionButton){
-            Intent intent = new Intent(this, AdditionActivity.class);
-            startActivity(intent);
-        }
-        else if (view.getId() == R.id.subtractionButton){
-            Intent intent = new Intent(this, SubtractionActivity.class);
-            startActivity(intent);
-        }
-        else if(view.getId() == R.id.multiplicationButton){
-            Intent intent = new Intent(this, MultiplicationActivity.class);
-            startActivity(intent);
-        }
-        else if(view.getId() == R.id.divisionButton){
-            Intent intent = new Intent(this, DivisionActivity.class);
-            startActivity(intent);
-        }
-        else if(view.getId() == R.id.exponentialButton){
-            Intent intent = new Intent(this, ExponentialActivity.class);
-            startActivity(intent);
-        }
-        else if(view.getId() == R.id.integerDivisionButton){
-            Intent intent = new Intent(this, IntegerDivisionActivity.class);
-            startActivity(intent);
-        }
-        else if(view.getId() == R.id.goToHomeAdd){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-        else if(view.getId() == R.id.normalCalcButton){
             Intent intent = new Intent(this, CalculatorMultipleOperations.class);
             startActivity(intent);
-        }
-
     }
 }
 
