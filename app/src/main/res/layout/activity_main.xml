@@ -7,43 +7,35 @@
     android:background="#255957"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/calculatorTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/anaheim"
-        android:text="@string/calculator"
-        android:textColor="#F3F0EB"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.042" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="249dp"
-        android:layout_height="335dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="120dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_3729" />
-
     <Button
         android:id="@+id/normalCalcButton"
         android:layout_width="130dp"
         android:layout_height="70dp"
+        android:layout_marginStart="141dp"
+        android:layout_marginEnd="141dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="@color/black"
         android:onClick="switchScreens"
-        android:text="@string/multiple_operations"
+        android:text="Calculator"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="315dp"
+        android:layout_height="516dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="57dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toTopOf="@+id/normalCalcButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.919" />
+        app:srcCompat="@drawable/imageofcalc" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

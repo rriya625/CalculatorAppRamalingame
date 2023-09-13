@@ -16,11 +16,16 @@ import java.util.regex.Pattern;
 public class CalculatorMultipleOperations extends AppCompatActivity {
 
 
-
+    //Diplay textView for inputs
     private TextView display;
+    //numbers and operators the user clicks
     private String currentInput = "";
+    //Answer/result
     private double result = 0;
+    //String for operators
     private String operator = "";
+
+    //Toast: https://stackoverflow.com/questions/3500197/how-to-display-toast-in-android
     public boolean showToast(){
         if(currentInput.equals("")){
             String message = "Cannot start with symbol!";
@@ -39,7 +44,7 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
 
         display = findViewById(R.id.textViewforinput);
 
-        //Declaring and initializing buttons
+        //Declaring and initializing buttons: https://stackoverflow.com/questions/21736187/button-button-findviewbyidr-id-button-always-resolves-to-null-in-android
         Button button0 = findViewById(R.id.button0id);
         Button button1 = findViewById(R.id.button1id);
         Button button2 = findViewById(R.id.button2id);
@@ -51,7 +56,7 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         Button button8 = findViewById(R.id.button8id);
         Button button9 = findViewById(R.id.button9id);
         Button decimalButton = findViewById(R.id.buttonDecimalid);
-        Button percentButton = findViewById(R.id.buttonpercentid);
+        Button pieButton = findViewById(R.id.buttonpieid);
         Button addButton = findViewById(R.id.plusButton);
         Button subtractButton = findViewById(R.id.minusButton);
         Button multiplyButton = findViewById(R.id.multiplyButton);
@@ -60,6 +65,15 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         Button clearButton = findViewById(R.id.buttonclearid);
 
         //OnClick ListenerMethod: https://stackoverflow.com/questions/25803727/android-setonclicklistener-method-how-does-it-work
+
+        pieButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                currentInput += " 3.1415926535897932384626";
+                updateDisplay(currentInput);
+            }
+        });
+
         button0.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -194,9 +208,32 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(currentInput.charAt(currentInput.length()-1)){
+                // If-else if... statement checks if the string ends in an operator and removes it if it does. Displays a toast message if an operator was removed
+                if(currentInput.substring(currentInput.length() - 1).equals("/")){
+                    String error = "Cannot end with a symbol! (operator is excluded)";
+                    Toast.makeText(CalculatorMultipleOperations.this,error,Toast.LENGTH_SHORT).show();
+                    currentInput = currentInput.substring(0,currentInput.length()-1);
+                    calculateExpression(currentInput);
+                }
+                else if(currentInput.substring(currentInput.length() - 1).equals("*")){
+                    String error = "Cannot end with a symbol! (operator is excluded)";
+                    Toast.makeText(CalculatorMultipleOperations.this,error,Toast.LENGTH_SHORT).show();
+                    currentInput = currentInput.substring(0,currentInput.length()-1);
                     calculateExpression(currentInput);
 
+                }
+                else if(currentInput.substring(currentInput.length() - 1).equals("+")){
+                    String error = "Cannot end with a symbol! (operator is excluded)";
+                    Toast.makeText(CalculatorMultipleOperations.this,error,Toast.LENGTH_SHORT).show();
+                    currentInput = currentInput.substring(0,currentInput.length()-1);
+                    calculateExpression(currentInput);
+
+                }
+                else if (currentInput.substring(currentInput.length() - 1).equals("-")) {
+                    String error = "Cannot end with a symbol! (operator is excluded)";
+                    Toast.makeText(CalculatorMultipleOperations.this,error,Toast.LENGTH_SHORT).show();
+                    currentInput = currentInput.substring(0,currentInput.length()-1);
+                    calculateExpression(currentInput);
                 }
                 else{
                     calculateExpression(currentInput);
@@ -204,7 +241,7 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
             }
         });
     }
-
+    //Enum: https://developer.android.com/reference/java/lang/Enum
     // Define an enum for mathematical operators
     enum Operator {
         ADDITION("+"),
@@ -223,7 +260,7 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         }
 
         // Create a static method to find an Operator enum based on a given symbol
-        public static Operator fromSymbol(String symbol) {
+        /*public static Operator fromSymbol(String symbol) {
             for (Operator op : Operator.values()) {
                 if (op.getSymbol().equals(symbol)) {
                     return op;
@@ -231,9 +268,11 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
             }
             throw new IllegalArgumentException("Invalid operator symbol: " + symbol);
         }
+
+         */
     }
 
-
+    //Calculates math with an operator and 2 numbers
     private double calculateOperator(Operator operator, double num1, double num2){
         switch (operator) {
             case ADDITION:
@@ -251,13 +290,13 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 throw new IllegalArgumentException("Invalid operator: " + operator);
         }
     }
-    // Create a static method to find an Operator enum based on a given symbol
-
+    //Static method to find an Operator enum based on a given symbol
     private void calculateExpression(String currentInput) {
-
+        //Patterns: https://developer.android.com/reference/android/util/Patterns
         List<String> userInputs = new ArrayList<>();
         // Use regular expressions to split the expression
         Pattern pattern = Pattern.compile("[-+*/]");
+        //Matcher: https://developer.android.com/reference/java/util/regex/Matcher
         Matcher matcher = pattern.matcher(currentInput);
         List<String> elements = new ArrayList<>();
 
@@ -284,8 +323,6 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         }
 
         // Print the elements
-
-
         for (String element : elements) {
             userInputs.add(element);
         }
@@ -294,6 +331,8 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         List<String> additionAndSubtractionList = new ArrayList<>();
         String num1 = userInputs.get(0);
         additionAndSubtractionList.add(num1);
+
+        //For loop that calculates the multiplication and division math (PEMDAS)
         for (int i = 1; i < userInputs.size(); i++){
             if(userInputs.get(i).equals("/")){
                 Double calcNumber = calculateOperator(Operator.DIVISION, Double.parseDouble(num1),Double.parseDouble(userInputs.get(i+1)));
@@ -311,7 +350,7 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
             }
         }
         System.out.println(additionAndSubtractionList);
-
+        //For loop that calculates the addition and subtraction math (PEMDAS)
         Double num2 = Double.parseDouble(additionAndSubtractionList.get(0));
         for(int i = 1; i < additionAndSubtractionList.size(); i++){
             if(additionAndSubtractionList.get(i).equals("+")){
@@ -337,6 +376,7 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         */
 
     }
+    //Method that clears user input on a button click
     private void clear() {
         currentInput = "";
         result = 0;
@@ -344,6 +384,7 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         updateDisplay(currentInput);
     }
 
+    //Method that updates the display
     private void updateDisplay(String currentInput) {
         display.setText(currentInput.isEmpty() ? String.valueOf(result) : currentInput);
          // ? and : kind of like a if else... If its empty do "String.valueOf(result)" else do "currentInput"

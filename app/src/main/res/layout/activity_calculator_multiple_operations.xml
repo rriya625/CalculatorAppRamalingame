@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.024" />
 
     <Button
-        android:id="@+id/buttonpercentid"
+        android:id="@+id/buttonpieid"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="44dp"
@@ -55,7 +55,7 @@
         app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button0id"
-        app:layout_constraintStart_toEndOf="@+id/buttonpercentid" />
+        app:layout_constraintStart_toEndOf="@+id/buttonpieid" />
 
     <Button
         android:id="@+id/button0id"
@@ -106,7 +106,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/button2id"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonpercentid" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonpieid" />
 
     <Button
         android:id="@+id/button2id"
@@ -307,7 +307,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="23dp"
         android:layout_marginBottom="36dp"
         android:backgroundTint="@color/Orange"
         android:text="@string/equaltobutton"
@@ -316,16 +316,17 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plusButton" />
+        app:layout_constraintTop_toBottomOf="@+id/plusButton"
+        app:layout_constraintVertical_bias="0.687" />
 
     <TextView
         android:id="@+id/textViewforinput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_width="344dp"
+        android:layout_height="18dp"
         android:layout_marginStart="176dp"
         android:layout_marginTop="66dp"
         android:layout_marginEnd="177dp"
-        android:text="TextView"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
