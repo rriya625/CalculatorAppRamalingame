@@ -14,8 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CalculatorMultipleOperations extends AppCompatActivity {
-
-
+    //Setting Pie as a final variable
+    private static final String PIE = "3.1415926535897932384626";
     //Diplay textView for inputs
     private TextView display;
     //numbers and operators the user clicks
@@ -24,12 +24,18 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
     private double result = 0;
     //String for operators
     private String operator = "";
+    //Boolean that stops the calculation if an impossible calculation occurs (Division by zero)
+    private boolean stopCalculation = false;
 
     //Toast: https://stackoverflow.com/questions/3500197/how-to-display-toast-in-android
-    public boolean showToast(){
+    //Function that shows different toast messages
+    public void ShowUserError(String messageToUser){
+        Toast.makeText(this, messageToUser, Toast.LENGTH_SHORT).show();
+    }
+    //Function that checks if the user input starts with a symbol and displays a toast if it does
+    public boolean isStartWithSymbol(){
         if(currentInput.equals("")){
-            String message = "Cannot start with symbol!";
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            ShowUserError("Cannot start with symbol!");
             return true;
         }
         else{
@@ -37,11 +43,34 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         }
     }
 
+    //Boolean function that gives a toast if an operator is already entered and prompts the user to enter the next number otherwise returns false
+    public boolean isLastCharOperator(String input) {
+        if (input.length() > 0) {
+            char lastChar = input.charAt(input.length() - 1);
+            if  (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
+                ShowUserError("Already entered operator! '" + lastChar + "' enter the next number");
+                return  true;
+            }
+        }
+        return false; // Return false for an empty string
+    }
+    //Boolean function that gives a toast if a decimal is already entered and prompts the user to enter the next digit/operator otherwise returns false
+    public boolean isLastCharPeriod(String input){
+        if (input.length() > 0) {
+            char lastChar = input.charAt(input.length() - 1);
+            if (lastChar == '.') {
+                ShowUserError("Already entered '" + lastChar + "' enter the next digit/operator");
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator_multiple_operations);
 
+        //Textview that displays the input/answers
         display = findViewById(R.id.textViewforinput);
 
         //Declaring and initializing buttons: https://stackoverflow.com/questions/21736187/button-button-findviewbyidr-id-button-always-resolves-to-null-in-android
@@ -69,20 +98,25 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         pieButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                currentInput += " 3.1415926535897932384626";
-                updateDisplay(currentInput);
+                // Check if the last characters of currentInput are not equal to the constant string
+                if (currentInput.trim().equals("")){
+                    currentInput += PIE;
+                    updateDisplay(currentInput);
+                }
+                //checks if the current input doesn't already have pie and a number 0-9
+                else if (!currentInput.endsWith(PIE) && (!currentInput.matches(".*[0-9]$")) ){
+                        currentInput += PIE;
+                        updateDisplay(currentInput);
+                }
             }
         });
-
         button0.setOnClickListener(new View.OnClickListener() {
             @Override
-
             public void onClick(View view) {
                 currentInput += "0";
                 updateDisplay(currentInput);
             }
         });
-
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +124,6 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 updateDisplay(currentInput);
             }
         });
-
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +131,6 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 updateDisplay(currentInput);
             }
         });
-
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +138,6 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 updateDisplay(currentInput);
             }
         });
-
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +145,6 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 updateDisplay(currentInput);
             }
         });
-
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,7 +152,6 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 updateDisplay(currentInput);
             }
         });
-
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,7 +159,6 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 updateDisplay(currentInput);
             }
         });
-
         button7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,7 +166,6 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 updateDisplay(currentInput);
             }
         });
-
         button8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,7 +173,6 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 updateDisplay(currentInput);
             }
         });
-
         button9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,92 +180,95 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 updateDisplay(currentInput);
             }
         });
-
         decimalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentInput += ".";
-                updateDisplay(currentInput);
+                if(!isLastCharPeriod(currentInput) && !currentInput.endsWith(PIE)) {
+                    currentInput += ".";
+                    updateDisplay(currentInput);
+                }
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!showToast()){
-                    currentInput += "+";
+                if(!isStartWithSymbol() && !isLastCharOperator(currentInput)){
+                    calcuateCurrentValueOnOperatorClick();
+                    if(!currentInput.trim().equals("")) {
+                        currentInput += "+";
+                        updateDisplay(currentInput);
+                    }
                 }
             }
         });
-
         subtractButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!showToast()){
-                    currentInput += "-";
+                if(!isStartWithSymbol() && !isLastCharOperator(currentInput)){
+                    calcuateCurrentValueOnOperatorClick();
+                    if(!currentInput.trim().equals("")) {
+                        currentInput += "-";
+                        updateDisplay(currentInput);
+                    }
+
                 }
             }
         });
-
         multiplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!showToast()){
-                    currentInput += "*";
+                if(!isStartWithSymbol() && !isLastCharOperator(currentInput)){
+                    calcuateCurrentValueOnOperatorClick();
+                    if(!currentInput.trim().equals("")) {
+                        currentInput += "*";
+                        updateDisplay(currentInput);
+                    }
                 }
             }
         });
-
         divideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!showToast()){
-                    currentInput += "/";
+                if(!isStartWithSymbol() && !isLastCharOperator(currentInput)){
+                    calcuateCurrentValueOnOperatorClick();
+                    if(!currentInput.trim().equals("")) {
+                        currentInput += "/";
+                        updateDisplay(currentInput);
+                    }
+
                 }
             }
         });
-
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
+            //Clear button
             public void onClick(View v) {
                 clear();
             }
         });
-
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // If-else if... statement checks if the string ends in an operator and removes it if it does. Displays a toast message if an operator was removed
-                if(currentInput.substring(currentInput.length() - 1).equals("/")){
-                    String error = "Cannot end with a symbol! (operator is excluded)";
-                    Toast.makeText(CalculatorMultipleOperations.this,error,Toast.LENGTH_SHORT).show();
-                    currentInput = currentInput.substring(0,currentInput.length()-1);
-                    calculateExpression(currentInput);
-                }
-                else if(currentInput.substring(currentInput.length() - 1).equals("*")){
-                    String error = "Cannot end with a symbol! (operator is excluded)";
-                    Toast.makeText(CalculatorMultipleOperations.this,error,Toast.LENGTH_SHORT).show();
-                    currentInput = currentInput.substring(0,currentInput.length()-1);
-                    calculateExpression(currentInput);
-
-                }
-                else if(currentInput.substring(currentInput.length() - 1).equals("+")){
-                    String error = "Cannot end with a symbol! (operator is excluded)";
-                    Toast.makeText(CalculatorMultipleOperations.this,error,Toast.LENGTH_SHORT).show();
-                    currentInput = currentInput.substring(0,currentInput.length()-1);
-                    calculateExpression(currentInput);
-
-                }
-                else if (currentInput.substring(currentInput.length() - 1).equals("-")) {
-                    String error = "Cannot end with a symbol! (operator is excluded)";
-                    Toast.makeText(CalculatorMultipleOperations.this,error,Toast.LENGTH_SHORT).show();
-                    currentInput = currentInput.substring(0,currentInput.length()-1);
-                    calculateExpression(currentInput);
-                }
-                else{
-                    calculateExpression(currentInput);
-                }
+                calcuateCurrentValue();
             }
         });
+    }
+    private void calcuateCurrentValue(){
+        if (!currentInput.trim().equals("")) {
+           // If-else if... statement checks if the string ends in an operator and removes it if it does. Displays a toast message if an operator was removed
+            if (currentInput.endsWith("/") || currentInput.endsWith("*") ||
+                    currentInput.endsWith("+") || currentInput.endsWith("-")) {
+                currentInput.substring(0, currentInput.length() - 1);
+            }
+            calculateExpression(currentInput);
+        }
+    }
+    //Function that calculates the values as the user inputs it
+    private void calcuateCurrentValueOnOperatorClick(){
+        if (currentInput.contains("/") || currentInput.contains("*") ||
+                currentInput.contains("+") || currentInput.contains("-")) {
+            calculateExpression(currentInput);
+        }
     }
     //Enum: https://developer.android.com/reference/java/lang/Enum
     // Define an enum for mathematical operators
@@ -248,17 +277,13 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         SUBTRACTION("-"),
         MULTIPLICATION("*"),
         DIVISION("/");
-
         private final String symbol;
-
         Operator(String symbol) {
             this.symbol = symbol;
         }
-
         public String getSymbol() {
             return symbol;
         }
-
         // Create a static method to find an Operator enum based on a given symbol
         /*public static Operator fromSymbol(String symbol) {
             for (Operator op : Operator.values()) {
@@ -271,8 +296,8 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
 
          */
     }
-
     //Calculates math with an operator and 2 numbers
+    //Method to find an Operator enum based on a given symbol
     private double calculateOperator(Operator operator, double num1, double num2){
         switch (operator) {
             case ADDITION:
@@ -283,15 +308,22 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 return num1 * num2;
             case DIVISION:
                 if (num2 == 0) {
-                    throw new ArithmeticException("Division by zero");
+                    stopCalculation = true;
+                    ShowUserError("Division by zero not allowed");
+                    return 0;
                 }
-                return num1 / num2;
-            default:
-                throw new IllegalArgumentException("Invalid operator: " + operator);
+                else {
+                    return num1 / num2;
+                }
+            default: {
+                stopCalculation = true;
+                ShowUserError("Division by zero not allowed");
+                return 0;
+            }
         }
     }
-    //Static method to find an Operator enum based on a given symbol
-    private void calculateExpression(String currentInput) {
+    //Function tht calculates the user input
+    private void calculateExpression(String currentInput){
         //Patterns: https://developer.android.com/reference/android/util/Patterns
         List<String> userInputs = new ArrayList<>();
         // Use regular expressions to split the expression
@@ -303,7 +335,7 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         int prevEnd = 0;
         while (matcher.find()) {
 
-            //Below is to separate whole number and symbols  3+5/7
+            //Below is to separate whole numbers and symbols  3+5/7
             //String match = matcher.group();
             //userInputs.add(match);
 
@@ -332,13 +364,23 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         String num1 = userInputs.get(0);
         additionAndSubtractionList.add(num1);
 
-        //For loop that calculates the multiplication and division math (PEMDAS)
+        //For loop that calculates the math
+        //stopCalculation is false b/c the answer is not defined yet
+        stopCalculation = false;
         for (int i = 1; i < userInputs.size(); i++){
+            //If stopCalculation is true -- breaks the loop -- answer is undefined
+            if (stopCalculation){
+                this.currentInput = "";
+                updateDisplay(this.currentInput);
+                break;
+            }
+            //If the input is division, division occurs
             if(userInputs.get(i).equals("/")){
                 Double calcNumber = calculateOperator(Operator.DIVISION, Double.parseDouble(num1),Double.parseDouble(userInputs.get(i+1)));
                 additionAndSubtractionList.set(additionAndSubtractionList.size()-1,Double.toString(calcNumber));
                 i++;
             }
+            //If the input is multiplication, multiplication occurs
             else if(userInputs.get(i).equals("*")){
                 Double calcNumber = calculateOperator(Operator.MULTIPLICATION, Double.parseDouble(num1),Double.parseDouble(userInputs.get(i+1)));
                 additionAndSubtractionList.set(additionAndSubtractionList.size()-1,Double.toString(calcNumber));
@@ -349,44 +391,48 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
                 additionAndSubtractionList.add(num1);
             }
         }
-        System.out.println(additionAndSubtractionList);
-        //For loop that calculates the addition and subtraction math (PEMDAS)
+        //System.out.println(additionAndSubtractionList);
         Double num2 = Double.parseDouble(additionAndSubtractionList.get(0));
-        for(int i = 1; i < additionAndSubtractionList.size(); i++){
-            if(additionAndSubtractionList.get(i).equals("+")){
-                Double calcNumber = calculateOperator(Operator.ADDITION, num2, Double.parseDouble(additionAndSubtractionList.get(i+1)));
-                num2 = calcNumber;
-                i++;
-            }
-            else if (additionAndSubtractionList.get(i).equals("-")){
-                Double calcNumber = calculateOperator(Operator.SUBTRACTION, num2, Double.parseDouble(additionAndSubtractionList.get(i+1)));
-                num2 = calcNumber;
-                i++;
+        if (!stopCalculation) {
+            for (int i = 1; i < additionAndSubtractionList.size(); i++) {
+                //If the input is addition, addition occurs
+                if (additionAndSubtractionList.get(i).equals("+")) {
+                    Double calcNumber = calculateOperator(Operator.ADDITION, num2, Double.parseDouble(additionAndSubtractionList.get(i + 1)));
+                    num2 = calcNumber;
+                    i++;
+                }
+                //If the input is subtraction, subtraction occurs
+                else if (additionAndSubtractionList.get(i).equals("-")){
+                    Double calcNumber = calculateOperator(Operator.SUBTRACTION, num2, Double.parseDouble(additionAndSubtractionList.get(i + 1)));
+                    num2 = calcNumber;
+                    i++;
+                }
             }
         }
-
-        updateDisplay(Double.toString(num2));
-
-        /*
-        String showToast = "";
-        for (int i = 0; i < additionAndSubtractionList.size(); i++) {
-            showToast += additionAndSubtractionList.get(i);
+        if(stopCalculation){
+            this.currentInput = "";
         }
-        Toast.makeText(this, showToast, Toast.LENGTH_LONG).show();
-        */
-
+        else{
+            this.currentInput = Double.toString(num2);
+            if (this.currentInput.endsWith(".0")){
+                this.currentInput = this.currentInput.replaceAll("\\.0$", "");
+            }
+        }
+        updateDisplay(this.currentInput);
     }
     //Method that clears user input on a button click
     private void clear() {
-        currentInput = "";
         result = 0;
         operator = "";
+        currentInput = "";
         updateDisplay(currentInput);
     }
-
     //Method that updates the display
     private void updateDisplay(String currentInput) {
-        display.setText(currentInput.isEmpty() ? String.valueOf(result) : currentInput);
+        display.setText(currentInput);
+
+        //Previously used but didn't work properly
+        //display.setText(currentInput.isEmpty() ? String.valueOf(result) : currentInput);
          // ? and : kind of like a if else... If its empty do "String.valueOf(result)" else do "currentInput"
 
         //Sets the text in the TextView named display based on the contents of currentInput and result.
@@ -395,5 +441,4 @@ public class CalculatorMultipleOperations extends AppCompatActivity {
         //isEmpty method: https://www.w3schools.com/java/ref_string_isempty.asp
         //valueOf method: https://www.geeksforgeeks.org/java-string-valueof/#
     }
-
 }
